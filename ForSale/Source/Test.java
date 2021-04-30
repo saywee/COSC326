@@ -21,8 +21,8 @@ public class Test {
            players.add(new Player("N" + ((char) ('A' + i)), new NullStrategy()));
            players.add(new Player("R"+ ((char) ('A' + i)), new RandomStrategy()));
        }
-       players.add(new Player("shitplayer", new Average()));
-       players.add(new Player("shit" , new Average()));
+       players.add(new Player("AVG", new Average()));
+       players.add(new Player("Sam" , new SamStratTest()));
         java.util.Collections.shuffle(players);
         GameManager g = new GameManager(players);
         g.run();
