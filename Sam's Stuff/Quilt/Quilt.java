@@ -16,8 +16,10 @@ public class Quilt extends Canvas {
         while (sc.hasNext()) {
             try {
                 val.add(Float.parseFloat(sc.next()));
-                if (val.get(tracker) > 255 || val.get(tracker) < 0) {
-                    throw new Exception("Value out of range");
+                if(val.get(tracker)%4 != 0){
+                    if (val.get(tracker) > 255 || val.get(tracker) < 0) {
+                        throw new Exception("Value out of range");
+                    }
                 }
                 tracker++;
             } catch (NumberFormatException e) {
