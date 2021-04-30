@@ -10,6 +10,9 @@ public class Average implements Strategy{
         // average, range(How far apart the highest and lowest cards are)
         //& midpoint(where is the middle of the current cardset) of current set of cards?
         // ie(28 - 14 + 14/2 = 21), (28 - 12 = 16;  + 16 / )2 = 20
+        // sort by quality**
+        //max = 30, min = 26, Range: 4. Spread 4,1,2,1, hence sorting gives better "spread"
+        // Range == Spread, Do not want to bid. Spread 1, but close to min, dont bid.
         
         int x = 0;
         int playerAverage = 0;
@@ -22,7 +25,6 @@ public class Average implements Strategy{
         playerAverage = avg(p.getCards());
         auctionAverage = avg(s.getCardsInAuction());
         List<Integer> auctionSpread = spread(s.getCardsInAuction());
-        auctionSpread = Collections.sort(s.getCardsInAuction().getQuality());
         
         for(Card c : p.getCards()){
             if(c.getQuality() < 7){
@@ -45,8 +47,27 @@ public class Average implements Strategy{
         max = doThing(s.getCardsInAuction()).getQuality();
         min = minimum(s.getCardsInAuction()).getQuality();
 
-        int range = max - min;
+        int range = max - min;//Current Range)
         int minSpread = Collections.min(auctionSpread);
+
+        //if range is large, find avg and bid for cards above, UNLESS spread is small between lower values. 
+        //if currentbid > threshold, dont bid
+        //take max cards in game, divide by value(based on money allocated) to get range(Generated Range)
+        // ^ to assign a general net worth to each card based upon allocated money(ie, threshold to purchase)
+        //use the generated range and compare to current range(whether acceptable to try high bids)
+        //check all against the current money we have
+
+        //1800/30
+        //360 per card
+        //60, 360: 1, 5, 10, 15, 25, 30
+        //4, 5, 5, 5, 5
+        //spread:4.25, max card: 30. min card 1.
+        // Since range is big(ie, >= range), try for highest card. If exceeding threshold(calculated based upon spread).
+        //Threshold = avg spread * monetary value
+        //
+        //1: 60, 30: 360,
+        //changed assigned general value/threshold based on cards and spread
+
         
         
         if(lowCards<=1){
@@ -76,6 +97,8 @@ public class Average implements Strategy{
         for(int i = 0; i < ls.size(); i++){
             stuff.add(doThing(ls.get(i).getCards()));
         }
+
+        
         
         if(maxCheque == 15){
             int x = 0;
